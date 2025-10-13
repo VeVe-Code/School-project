@@ -1,0 +1,12 @@
+# Node modules folder ကို ignore
+node_modules/
+
+# Environment files
+.env
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db

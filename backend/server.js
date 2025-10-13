@@ -1,0 +1,43 @@
+let express = require('express')
+let morgan = require('morgan')
+let app = express()
+let cookieParser = require('cookie-parser')
+require('dotenv').config()
+let Routercourse = require('./routes/courses')
+let Routerknowledge = require('./routes/knowledge')
+let AdminRoute = require('./routes/admins')
+const mongoose = require('mongoose');
+var cors = require('cors')
+let mongoURL = 'mongodb+srv://alina:test123@cluster0.zezpfd1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+mongoose.connect(mongoURL).then(()=>{
+    console.log('connect to db')
+    app.listen(process.env.PORT,()=>{
+    console.log('server is running ' + process.env.PORT)
+})
+    }
+)
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true
+}))
+app.use(express.json())
+app.use(morgan('dev'))
+app.use(cookieParser())
+
+app.get('/',(req, res)=>{
+    return res.json({msg: "hello world"})
+})
+app.use('/api/courses',Routercourse)
+app.use('/api/knowledge',Routerknowledge)
+app.use('/api/admins',AdminRoute)
+
+app.get('/set-cookie',(req,res)=>{
+    res.cookie("name","VeVe")
+    res.cookie("important","Moshi",{httpOnly:true})
+    return res.json({msg:"set-cookie"})
+})
+
+app.get('/get-cookie',(req,res)=>{
+   let cookies = req.cookies
+   return res.json(cookies)
+})
