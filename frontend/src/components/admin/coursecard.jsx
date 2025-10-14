@@ -1,11 +1,11 @@
-import axios from 'axios'
+import axios from '../../helper/axios'
 import React from 'react'
 import { Link } from 'react-router-dom';
 
 function coursecard({course,  Deletecourse}) {
   let onDelete = async (e)=>{
     e.preventDefault();
-    let res = await axios.delete('http://localhost:4000/api/courses/' + course._id)
+    let res = await axios.delete('/api/courses/' + course._id)
     if(res.status === 200){
       Deletecourse(course._id)
     }

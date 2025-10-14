@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../helper/axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -16,7 +16,7 @@ function KnowledgeForm() {
     useEffect(()=>{
       let knowledge = async()=>{
        if(id){
-         let res = await axios.get("http://localhost:4000/api/knowledge/"+ id)
+         let res = await axios.get("/api/knowledge/"+ id)
          
         if(res.status === 200){
             setTitle(res.data.title)
@@ -39,9 +39,9 @@ let createknowledge =async (e)=>{
     }
     let res
     if(id){
- res = await axios.patch("http://localhost:4000/api/knowledge/" + id ,knowledge)
+ res = await axios.patch("/api/knowledge/" + id ,knowledge)
     }else{
-     res = await axios.post("http://localhost:4000/api/knowledge",knowledge)
+     res = await axios.post("/api/knowledge",knowledge)
     }
     if(res.status === 200){
         nevigate('/admin/adminKnowledge')

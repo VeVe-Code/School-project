@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../../helper/axios'
 import React, { useEffect, useState } from 'react'
 import CourseCard from '../../components/admin/coursecard'
 import Pagination from  '../../components/admin/AdminPagi'
@@ -11,12 +11,12 @@ function AdminCourse() {
   let location = useLocation()
   let Searchquery = new URLSearchParams(location.search)
   let page = Searchquery.get('page')
- page = parseInt(page)
+ page = parseInt(page) ? parseInt(page) : 1
  let navigate = useNavigate()
   console.log(page)
   useEffect(() => {
     const fetchcourse = async () => {
-      let res = await axios.get('http://localhost:4000/api/courses?page='+ page  )
+      let res = await axios.get('/api/courses?page='+ page  )
       if (res.status === 200) {
         setCourse(res.data.data)
             setLinks(res.data.links)

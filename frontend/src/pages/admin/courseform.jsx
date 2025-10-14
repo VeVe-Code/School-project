@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
+import axios from "../../helper/axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 function CourseForm() {
@@ -12,12 +12,13 @@ function CourseForm() {
     let[price, setPrice] = useState('')
     let  navigate=useNavigate()
     let[error, setError] = useState(null)
+    
 
     useEffect(()=>{
  
   let course = async()=> {
  if(id){
-  let res = await axios.get('http://localhost:4000/api/courses/' + id)
+  let res = await axios.get('/api/courses/' + id)
   if(res.status === 200){
     setTitle(res.data.title)
     setDescription(res.data.description)
@@ -42,10 +43,10 @@ let createCourse = async (e) => {
     price
    }
  let res 
- if(id){res= await axios.patch('http://localhost:4000/api/courses/'+ id,course)
+ if(id){res= await axios.patch('/api/courses/'+ id,course)
 
  }else{
-  res= await axios.post('http://localhost:4000/api/courses',course)
+  res= await axios.post('/api/courses',course)
  }
  
 

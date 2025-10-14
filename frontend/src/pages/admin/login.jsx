@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../../helper/axios'
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -13,7 +13,7 @@ function login() {
         email,
         password
       }
-     let res =  await axios.post("http://localhost:4000/api/admins/login",data,{ withCredentials : true})
+     let res =  await axios.post("/api/admins/login",data,{ withCredentials : true})
      if(res.status === 200){
       navigate('/admin/admincourse') 
      }

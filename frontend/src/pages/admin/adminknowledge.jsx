@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../helper/axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -21,7 +21,7 @@ function AdminKnowledge() {
    
 
     let fetchKnowledge = async () => {
-      let res = await axios.get("http://localhost:4000/api/knowledge?page=" + page)
+      let res = await axios.get("/api/knowledge?page=" + page)
       if (res.status === 200) {
         setKnowledge(res.data.data)
         setLinks(res.data.links)

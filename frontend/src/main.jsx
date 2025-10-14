@@ -14,7 +14,7 @@ import AdminKnowledge from './pages/admin/adminknowledge.jsx'
 import KnowledgeForm from './pages/admin/knowledgeform.jsx'
 import LoginForm from './pages/admin/login.jsx'
 import RegisterForm from './pages/admin/register.jsx'
-
+import { AuthContextProvider } from './contexts/AuthContext.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,7 +28,11 @@ const router = createBrowserRouter([
     
   },{
     path:'/admin',
-    element:<AdminLayout></AdminLayout>,
+    element:<AuthContextProvider>
+      <AdminLayout></AdminLayout>
+      </AuthContextProvider> 
+    
+    ,
     children:[
       {
         path:'admincourse',

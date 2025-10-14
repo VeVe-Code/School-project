@@ -1,11 +1,11 @@
-import axios from 'axios'
+import axios from '../../helper/axios'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 function knowledgecard({item,ondelete}) {
   let deleteknowledge =async (e) =>{
     e.preventDefault()
-    let res = await axios.delete('http://localhost:4000/api/knowledge/' + item._id)
+    let res = await axios.delete('/api/knowledge/' + item._id)
     if(res.status === 200){
        ondelete(item._id)
     }

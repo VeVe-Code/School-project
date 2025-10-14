@@ -4,6 +4,7 @@ const { body, validationResult } = require('express-validator');
 const handleerror = require('../middleware/handleerror');
 let router = express.Router()
 
+
 router.get('',coursecontroller.index)
 router.post('',[
   body('title').notEmpty(),

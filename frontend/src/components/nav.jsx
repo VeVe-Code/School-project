@@ -3,8 +3,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
+
 function nav() {
      const [isOpen, setIsOpen] = useState(false);
+
   
     const navLinks = [
       { to: "/", label: "Home" },

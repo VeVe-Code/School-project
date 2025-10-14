@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../../contexts/AuthContext'
+import { useContext } from 'react'
 
 function AdminNav() {
   const [isOpen, setIsOpen] = useState(false)
-
+ let {name}= useContext(AuthContext)
+ console.log(name)
   return (
     <>
       {/* Mobile header */}

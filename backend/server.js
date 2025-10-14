@@ -6,6 +6,7 @@ require('dotenv').config()
 let Routercourse = require('./routes/courses')
 let Routerknowledge = require('./routes/knowledge')
 let AdminRoute = require('./routes/admins')
+let Authmiidleware = require('./middleware/Authmiddleware')
 const mongoose = require('mongoose');
 var cors = require('cors')
 let mongoURL = 'mongodb+srv://alina:test123@cluster0.zezpfd1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
@@ -27,7 +28,7 @@ app.use(cookieParser())
 app.get('/',(req, res)=>{
     return res.json({msg: "hello world"})
 })
-app.use('/api/courses',Routercourse)
+app.use('/api/courses',Authmiidleware,Routercourse)
 app.use('/api/knowledge',Routerknowledge)
 app.use('/api/admins',AdminRoute)
 
