@@ -8,6 +8,8 @@ let route = express.Router()
 
 route.post('/login',admincontroller.login)
 
+route.post('/logout',admincontroller.logout)
+
 route.post('/register',[
   body('name').notEmpty(),
     body('email').custom(async value => {

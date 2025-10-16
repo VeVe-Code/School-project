@@ -1,12 +1,14 @@
 import axios from '../../helper/axios'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../contexts/AuthContext'
 
 function login() {
   let [email, setEmail] = useState('')
   let [password, setPassword] = useState('')
   let navigate = useNavigate()
+   let {dispatch}= useContext(AuthContext)
   let login = async (e) => {
       e.preventDefault()
       let data = {
@@ -15,6 +17,7 @@ function login() {
       }
      let res =  await axios.post("/api/admins/login",data,{ withCredentials : true})
      if(res.status === 200){
+      dispatch({type:"LOGIN",payload:res.data.admin})
       navigate('/admin/admincourse') 
      }
   }

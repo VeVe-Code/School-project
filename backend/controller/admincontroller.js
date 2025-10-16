@@ -34,6 +34,10 @@ return res.json({ newadmin, token });
       } catch (e) {
         return res.status(400).json({error : e.message})
       }
+    },
+    logout : async(req,res) =>{
+      res.cookie("jwt", "", {httpOnly : true, maxAge : 1});
+      return res.json({msg : "logout success"})
     }
 
 }

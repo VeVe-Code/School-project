@@ -1,15 +1,28 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useContext } from 'react'
+import axios from 'axios'
 
 function AdminNav() {
   const [isOpen, setIsOpen] = useState(false)
- let {name}= useContext(AuthContext)
- console.log(name)
+ let {user}= useContext(AuthContext)
+ console.log(user)
+ let Navigate = useNavigate()
+  let {dispatch}= useContext(AuthContext)
+ let logout = async() =>{
+    let res = await axios.post('/api/admins/logout')
+    if(res.status === 200){
+            dispatch({type:"LOGOUT"})
+      Navigate('/admin/login')
+    }
+ }
   return (
     <>
       {/* Mobile header */}
+{
+  !!user && (
+    <>
       <div className="md:hidden flex justify-between items-center bg-gray-800 text-white p-4 fixed w-full top-0 z-50">
         <span className="text-lg font-bold">Admin Panel</span>
         <button
@@ -81,12 +94,15 @@ function AdminNav() {
 
         <div className="p-4 border-t border-gray-700">
           <button
-            className="w-full bg-red-600 py-2 rounded hover:bg-red-700"
+            onClick={logout} className="w-full bg-red-600 py-2 rounded hover:bg-red-700"
           >
             Logout
           </button>
         </div>
       </div>
+    </>
+  )
+}
     </>
   )
 }
