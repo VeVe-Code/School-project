@@ -6,24 +6,32 @@ const { body } = require('express-validator')
 router.get('', foundercontroller.index)
 
 const handleerror = require('../middleware/handleerror');
-// router.post('/', foundercontroller.store)
 
 
-// router.patch('/createimg', foundercontroller.update)
+router.get('', foundercontroller.index)
+router.post('',[
+    body('name').notEmpty(),
+    body('about').notEmpty(),
+    body('position').notEmpty()
+],handleerror, foundercontroller.store)
+router.patch('/:id', foundercontroller.update)
+router.get('/:id', foundercontroller.show)
+router.delete('/:id', foundercontroller.destory)
 
-router.post('/:id/upload',[
-    upload.single('photo'),
-    body('photo')
-    .custom((value,{req})=>{
-        if(!req.file){
-            throw new Error('file is required')
-        }
-        if(!req.file.mimetype.startsWith('image')){
-            throw new Error('file must be an image')
-        }
-        return true
-    })
+router.post('/:id/upload', [
+  upload.single('photo'),
 
-],handleerror,foundercontroller.upload)
+  // ✅ Validate the uploaded file
+  body('photo').custom((value, { req }) => {
+    if (!req.file) {
+      throw new Error('file is required');
+    }
+    if (!req.file.mimetype.startsWith('image/')) {
+      throw new Error('file must be an image');
+    }
+    return true;
+  })
+
+], handleerror, foundercontroller.upload);
 
 module.exports = router

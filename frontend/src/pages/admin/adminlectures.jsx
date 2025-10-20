@@ -1,82 +1,90 @@
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
+import FounderCard from "../../components/admin/foundercard";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import TeacherCard from "../../components/admin/teachercard";
 
 
 function AdminLectures() {
+  let [founder, setFounder] = useState ([])
+  let [teachers, setTeachers] = useState ([])
+ 
+  useEffect(()=>{
+    let fetchFounder = async()=>{
+      let res = await axios.get('/api/founder')
+      if(res.status === 200){
+      setFounder(res.data) }
+    }
+      let fetchTeachers = async()=>{
+    let res = await axios.get('/api/lecturers')
+    if(res.status === 200){
+    setTeachers(res.data)}
+  }
+  fetchTeachers()
+    fetchFounder()
+  },[])
+let onDelete = (id) =>{
+  let updatedFounder = founder.filter((f) => f._id !== id)
+  setFounder (updatedFounder)
+}
+  
+let Delete = (id) =>{
+  let updatedTeachers = teachers.filter((t) => t._id !== id)
+  setTeachers (updatedTeachers)
+}
+// useEffect(()=>{
+//   let fetchTeachers = async()=>{
+//     let res = await axios.get('/api/lecturers')
+//     if(res.status === 200){
+//     console.log(res.data)}
+//   }
+//   fetchTeachers()
+// },[])
   return (
  <div className="p-8 bg-gray-50 min-h-screen space-y-16">
       {/* ======== Founder Section ======== */}
-      <section className="max-w-5xl mx-auto bg-white rounded-xl p-8">
+     
+      <section className="max-w-5xl mx-auto bg-white rounded-xl p-8 md:pt-7 pt-20">
+        <div  className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">
+         Founder
+          </h1>
+               <Link to={'/admin/lecturers/create'}><button  className="bg-blue-500 text-neutral-50 px-4 py-2 rounded">Create</button></Link>
+        </div>
+  
         <div className="flex flex-col md:flex-row items-center gap-8">
           {/* Left: Image */}
-          <div className="flex-shrink-0">
-            <img
-              src="https://randomuser.me/api/portraits/men/10.jpg"
-              alt="Founder"
-              className="w-56 h-56 object-cover rounded-lg border border-gray-300"
-            />
-          </div>
+        <form action="">
+  {founder.map((f) => (
+ <FounderCard f={f}  onDelete={onDelete} key={f._id}></FounderCard>
+  ))}
+</form>
 
-          {/* Right: Text */}
-          <div className="flex-1 text-center md:text-left">
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">👑 John Doe</h2>
-            <p className="text-blue-600 font-medium mb-4">Founder & CEO</p>
-            <p className="text-gray-600">
-              John founded this platform with a vision to make coding education
-              accessible and practical. With over 10 years in the software
-              industry, he continues to mentor aspiring developers worldwide.
-            </p>
-          </div>
         </div>
+          
       </section>
 
       {/* ======== Lecturers Section ======== */}
       <section className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">
-          🎓 Our Lecturers
+          Our Lecturers
         </h1>
+     <div className="flex items-center justify-end mb-8">
+       <Link to={'/admin/teachers/create'}>  <button  className="bg-blue-500 text-neutral-50 px-4 py-2 rounded">Create Teacher</button></Link>
+     </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Lecturer 1 */}
-          <div className="bg-white p-6 rounded-xl text-center">
-            <img
-              src="https://randomuser.me/api/portraits/women/45.jpg"
-              alt="Alice Johnson"
-              className="w-28 h-28 object-cover rounded-lg border border-gray-300 mx-auto mb-4"
-            />
-            <h2 className="text-xl font-semibold text-gray-800">Alice Johnson</h2>
-            <p className="text-blue-600 font-medium mb-2">Frontend Instructor</p>
-            <p className="text-gray-600 text-sm">
-              Expert in React and Next.js with 5+ years of teaching experience.
-            </p>
-          </div>
+          {!!teachers.length && teachers.map((teacher) => (
+          <TeacherCard key={teacher._id} teacher={teacher} Delete={Delete} />
+          ))}
+    <div>
 
-          {/* Lecturer 2 */}
-          <div className="bg-white p-6 rounded-xl text-center">
-            <img
-              src="https://randomuser.me/api/portraits/men/52.jpg"
-              alt="Michael Tan"
-              className="w-28 h-28 object-cover rounded-lg border border-gray-300 mx-auto mb-4"
-            />
-            <h2 className="text-xl font-semibold text-gray-800">Michael Tan</h2>
-            <p className="text-green-600 font-medium mb-2">Backend Engineer</p>
-            <p className="text-gray-600 text-sm">
-              Specialist in Node.js, Express, and MongoDB architecture.
-            </p>
-          </div>
 
-          {/* Lecturer 3 */}
-          <div className="bg-white p-6 rounded-xl text-center">
-            <img
-              src="https://randomuser.me/api/portraits/women/68.jpg"
-              alt="Sara Kim"
-              className="w-28 h-28 object-cover rounded-lg border border-gray-300 mx-auto mb-4"
-            />
-            <h2 className="text-xl font-semibold text-gray-800">Sara Kim</h2>
-            <p className="text-pink-600 font-medium mb-2">UI/UX Designer</p>
-            <p className="text-gray-600 text-sm">
-              Designs clean, accessible interfaces with a focus on usability.
-            </p>
-          </div>
+        
+         
+    </div>
         </div>
       </section>
     </div>

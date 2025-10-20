@@ -10,9 +10,7 @@ let knowledgecontroller = {
     index:async(req,res)=>{
         let limit = 6
         let page = req.query.page || 1
-        
-       
-        let knowledge = await Knowledge
+        let knowledge = await Knowledge  
         .find()
         .skip((page - 1) * 6)
         .limit(limit)

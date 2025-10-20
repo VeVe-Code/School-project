@@ -2,7 +2,14 @@ let Admins = require('../model/Admins')
 let createToken = require('../helper/createtoken')
 
 
+
 let admincontroller = {
+    me: async (req, res) => {
+      return res.json(req.user);
+    }
+  
+  ,
+
     login : async(req,res)=>{
      try {
   const { email, password } = req.body;

@@ -9,6 +9,7 @@ let Routerknowledge = require('./routes/knowledge')
 let AdminRoute = require('./routes/admins')
 let Authmiidleware = require('./middleware/Authmiddleware')
 let FounderRoute = require('./routes/founder')
+
 const mongoose = require('mongoose');
 var cors = require('cors')
 let mongoURL = 'mongodb+srv://alina:test123@cluster0.zezpfd1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
@@ -19,7 +20,7 @@ mongoose.connect(mongoURL).then(()=>{
 })
     }
 )
-
+let LecturerRoute = require('./routes/lecturers')
 app.use(cors({
     origin:"http://localhost:5173",
     credentials:true
@@ -34,6 +35,7 @@ app.get('/',(req, res)=>{
 app.use('/api/courses',Authmiidleware,Routercourse)
 app.use('/api/knowledge',Routerknowledge)
 app.use('/api/admins',AdminRoute)
+app.use('/api/lecturers',LecturerRoute)
 
 app.get('/set-cookie',(req,res)=>{
     res.cookie("name","VeVe")
