@@ -8,7 +8,7 @@ import {
 import App from "../App.jsx";
 import Home from "../pages/home.jsx";
 import AdminLayout from "../adminLayout.jsx";
-
+import AdminCoursedatail from '../pages/admin/admincoursedetail.jsx'
 import AdminCourse from "../pages/admin/admincourse.jsx";
 import CourseForm from "../pages/admin/courseform.jsx";
 import AdminKnowledge from "../pages/admin/adminknowledge.jsx";
@@ -18,8 +18,13 @@ import RegisterForm from "../pages/admin/register.jsx";
 import AdminLectures from "../pages/admin/adminlectures.jsx";
 import FounderForm from "../pages/admin/founderform.jsx";
 import TeacherForm from "../pages/admin/teacherform.jsx";
-
+import Aboutus from '../pages/aboutus.jsx'
+import CoursesDetail from '../pages/CourseDetail.jsx'
+import AdminKnowledgeDetail from '../pages/admin/adminknowledgedetail'
 import { AuthContext, AuthContextProvider } from "../contexts/AuthContext.jsx";
+import Courses from "../pages/courses.jsx";
+import Knowledge from "../pages/knowledge.jsx";
+import KnowledgeDetail from '../pages/knowledgeDetail.jsx'
 
 // 🔹 Step 1: Wrap everything in AuthContextProvider
 function Index() {
@@ -43,7 +48,13 @@ function IndexWithAuth() {
     {
       path: "/",
       element: <App />,
-      children: [{ path: "/", element: <Home /> }],
+      children: [{ path: "/", element: <Home /> },
+        { path: "/aboutus", element: <Aboutus /> },
+        { path: "/courses", element: <Courses /> },
+         { path: "/courses/:id", element: <CoursesDetail /> },
+            { path: "/knowledge", element: <Knowledge /> },
+                   { path: "/knowledge/:id", element: <KnowledgeDetail /> }
+      ],
     },
     {
       path: "/admin",
@@ -57,6 +68,14 @@ function IndexWithAuth() {
           path: "admincourse/create",
           element: user ? <CourseForm /> : <Navigate to="/admin/login" />,
         },
+         {
+          path: "admincourse/:id",
+          element: user ? <AdminCoursedatail/> : <Navigate to="/admin/login" />,
+        },
+         {
+          path: "admincourse/:id",
+          element: user ? <AdminCoursedatail/> : <Navigate to="/admin/login" />,
+        },
         {
           path: "admincourse/edit/:id",
           element: user ? <CourseForm /> : <Navigate to="/admin/login" />,
@@ -65,6 +84,11 @@ function IndexWithAuth() {
           path: "adminknowledge",
           element: user ? <AdminKnowledge /> : <Navigate to="/admin/login" />,
         },
+         {
+          path: "adminknowledge/:id",
+          element: user ? <AdminKnowledgeDetail /> : <Navigate to="/admin/login" />,
+        }
+        ,
         {
           path: "adminknowledge/create",
           element: user ? <KnowledgeForm /> : <Navigate to="/admin/login" />,

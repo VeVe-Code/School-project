@@ -1,5 +1,7 @@
 const Courses = require("../model/Courses")
 let mongoose = require('mongoose')
+let fs = require('fs').promises
+let removeFile = require('../helper/removefile')
 
 let coursecontroller = {
     index:async(req,res)=>{
@@ -74,6 +76,7 @@ try{        let id = req.params.id
         let course = await Courses.findByIdAndUpdate(id,{
             ...req.body
         }) 
+        await removeFile( __dirname + '/../public' + course.photo)
         if(!course){
              return res.status(404).json({msg:"Course not found"})
         }
@@ -82,12 +85,30 @@ try{        let id = req.params.id
              return res.status(500).json({msg:"server error "})
         }
     },
+     upload:async(req,res)=>{
+         try{        let id = req.params.id
+     if(!mongoose.Types.ObjectId.isValid(id)){
+         return res.status(400).json({msg:"id  is invalid"})
+     }
+        let course = await Courses.findByIdAndUpdate(id,{
+        photo :'/' + req.file.filename
+        }) 
+        if(!course){
+             return res.status(404).json({msg:"Course not found"})
+        }
+        
+        return res.json(course)}catch(e){
+             return res.status(500).json({msg:"server error "})
+        }
+     }
+    ,
     destory:async(req,res)=>{
        try{        let id = req.params.id
      if(!mongoose.Types.ObjectId.isValid(id)){
          return res.status(400).json({msg:"id  is invalid"})
      }
         let course = await Courses.findByIdAndDelete(id) 
+        await removeFile( __dirname + '/../public' + course.photo)
         if(!course){
              return res.status(404).json({msg:"Course not found"})
         }

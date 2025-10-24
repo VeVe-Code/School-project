@@ -53,6 +53,7 @@ useEffect(()=>{
                 setName (res.data.name)
                 setRole (res.data.role)
                 setAbout (res.data.about)
+                   setPreview(import.meta.env.VITE_BACKEND_URL + res.data.photo);
             }
     }
     fetchTeacher()}

@@ -11,8 +11,8 @@ function nav() {
     const navLinks = [
       { to: "/", label: "Home" },
       { to: "/About-us", label: "About us" },
-      { to: "/services", label: "Services" },
-      { to: "/dailynews", label: "News" },
+      { to: "/courses", label: "Courses" },
+      { to: "/knowledge", label: "Knowledge" },
       { to: "/Contact-us", label: "Contact us" },
     ];
   return (
@@ -28,7 +28,7 @@ function nav() {
         {/* Logo */}
         <div className="text-2xl font-extrabold tracking-wide">
           <Link to="/" className="text-shadow-neutral-900 hover:text-neutral-950 transition">
-            IT<span className="text-blue-900">Company</span>
+           <img src="/ChatGPT Image Oct 22, 2025, 02_15_28 AM.png" className='w-20' alt="" />
           </Link>
         </div>
 

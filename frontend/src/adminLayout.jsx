@@ -1,20 +1,21 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Nav from './components/admin/adminnav'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Nav from './components/admin/adminnav';
 
-function adminLayout() {
+function AdminLayout() {
   return (
-    <>
-  <div className='flex'>
-     <div>
-     <Nav></Nav>
-   </div>
-    <div className='w-full h-full'>
-        <Outlet></Outlet>
+    <div className="md:flex">
+      {/* Sidebar */}
+      <div className="fixed top-0 left-0 h-full  shadow-md overflow-y-auto md:block">
+        <Nav />
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1 md:ml-64 p-4">
+        <Outlet />
+      </div>
     </div>
-  </div>
-    </>
-  )
+  );
 }
 
-export default adminLayout
+export default AdminLayout;

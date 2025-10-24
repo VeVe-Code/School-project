@@ -2,7 +2,7 @@ import axios from '../../helper/axios'
 import React, { useEffect, useState } from 'react'
 import CourseCard from '../../components/admin/coursecard'
 import Pagination from  '../../components/admin/AdminPagi'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 
 function AdminCourse() {
@@ -40,11 +40,14 @@ function AdminCourse() {
   
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 md:p-10">
-      <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center md:text-left">
+
+    <div className="min-h-screen bg-gray-50 p-6 md:p-10 md:mt-8 mt-16">
+     <div className='flex justify-between'>
+       <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center md:text-left">
         Courses
       </h2>
-
+ <Link to="/admin/admincourse/create/">  <button  className="bg-blue-500 text-neutral-50 px-4 py-2 rounded">Create Course</button></Link>
+     </div>
       {/* Bigger blog style layout */}
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 ">
         {!!courses.length &&
@@ -53,8 +56,12 @@ function AdminCourse() {
           ))}
         
       </div>
-{  !! links &&     <Pagination links={links} page={page || 1}></Pagination>}
-    </div>
+      <div>
+            {  !! links &&     <Pagination links={links} page={page || 1}></Pagination>}
+      </div>
+      </div>
+      
+ 
   )
 }
 

@@ -41,7 +41,7 @@ function AdminKnowledge() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-50 p-8 md:mt-2 mt-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Knowledge Management</h1>

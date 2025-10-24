@@ -5,7 +5,7 @@ let fs = require("fs").promises
 
 let lecturercontroller = {
     index:async(req,res) =>{
-        let lecturers = await Lecturers.find().sort({createdAt:-1})
+        let lecturers = await Lecturers.find()
      return res.json(lecturers)
     },
     store:async(req,res) =>{
