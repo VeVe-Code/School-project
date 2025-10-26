@@ -24,7 +24,10 @@ import AdminKnowledgeDetail from '../pages/admin/adminknowledgedetail'
 import { AuthContext, AuthContextProvider } from "../contexts/AuthContext.jsx";
 import Courses from "../pages/courses.jsx";
 import Knowledge from "../pages/knowledge.jsx";
-import KnowledgeDetail from '../pages/knowledgeDetail.jsx'
+import KnowledgeDetail from '../pages/knowledgeDetail.jsx';
+import Contactus  from '../pages/contactus';
+import AdminContactus from '../pages/admin/admincontactus.jsx';
+import AdminContactusdetail  from '../pages/admin/admincontactusdetail.jsx'
 
 // 🔹 Step 1: Wrap everything in AuthContextProvider
 function Index() {
@@ -53,7 +56,8 @@ function IndexWithAuth() {
         { path: "/courses", element: <Courses /> },
          { path: "/courses/:id", element: <CoursesDetail /> },
             { path: "/knowledge", element: <Knowledge /> },
-                   { path: "/knowledge/:id", element: <KnowledgeDetail /> }
+                   { path: "/knowledge/:id", element: <KnowledgeDetail /> },
+                     { path: "/contact-us", element: <Contactus /> }
       ],
     },
     {
@@ -116,6 +120,14 @@ function IndexWithAuth() {
         {
           path: "teachers/edit/:id",
           element: user ? <TeacherForm /> : <Navigate to="/admin/login" />,
+        },
+         {
+          path: "admincontactus",
+          element: user ? <AdminContactus /> : <Navigate to="/admin/login" />,
+        },
+           {
+          path: "admincontactus/:id",
+          element: user ? <AdminContactusdetail /> : <Navigate to="/admin/login" />,
         },
         {
           path: "login",

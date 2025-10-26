@@ -13,6 +13,7 @@ let CfounderRoute = require('./routes/cfounder')
 let ClecturerRoute = require('./routes/clecturers.js')
 let CpublicRoute =require('./routes/publicCourses.js')
 let Cknowledge = require('./routes/publicKnowledge.js')
+let ContactusRoute = require('./routes/publicContactus.js')
 const mongoose = require('mongoose');
 var cors = require('cors')
 let mongoURL = 'mongodb+srv://alina:test123@cluster0.zezpfd1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
@@ -49,6 +50,7 @@ app.use('/api/founder',Authmiidleware,FounderRoute)
 app.use('/api/cfounder',CfounderRoute)
 app.use('/api/publiclectures',ClecturerRoute)
 app.use('/api/publiccourses',CpublicRoute)
+app.use('/api/contactus',ContactusRoute)
 
 app.get('/get-cookie',(req,res)=>{
    let cookies = req.cookies
