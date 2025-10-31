@@ -40,7 +40,7 @@ export default function Home() {
       let res = await axios.get('/api/quantity')
       if(res.status===200){
         setData(res.data)
-        console.log(res.data)
+     
       }
     }
   fetchData()

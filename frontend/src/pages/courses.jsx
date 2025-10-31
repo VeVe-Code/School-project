@@ -103,7 +103,7 @@ function Courses() {
               {/* Content */}
               <div className="p-6 flex flex-col justify-between flex-grow">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  <h3 className="text-xl font-semibold text-blue-400 mb-2">
                     {course.title}
                   </h3>
                   <p className="text-gray-600 mb-4 line-clamp-3">
@@ -148,7 +148,57 @@ function Courses() {
           No courses available.
         </p>
       )}
+              <div className="max-w-6xl mx-auto px-4 py-16">
+      {/* Title */}
+      <h1 className="text-2xl md:text-3xl font-bold mb-8 text-gray-800 text-center">
+        One On One <span className="text-blue-500">Class</span>
+      </h1>
+
+      {/* Content Container */}
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-10 md:gap-20">
+        
+        {/* Video */}
+        <motion.div
+          className="w-full md:w-1/2 flex justify-center md:justify-start"
+          initial={{ x: -200, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+        >
+          <iframe
+            className="w-full h-64 md:h-80 rounded-lg shadow-lg"
+            src="https://www.youtube.com/embed/9WidUcq7C1E?si=jcWNeP_NU-qUugVb"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+        </motion.div>
+        
+        <motion.div
+          className="w-full md:w-1/2 text-gray-700 text-sm md:text-base font-semibold leading-relaxed"
+          initial={{ x: 200, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+        >
+          <p>𝐁𝐄𝐀 ဆိုတာနဲ့ တွဲမြင်တဲ့ 𝐎𝐧𝐞 𝐨𝐧 𝐎𝐧𝐞 𝐂𝐥𝐚𝐬𝐬 လေးနဲ့ မိတ်ဆက်ပေးချင်ပါတယ် </p>
+          <p className="mt-4">𝐎𝐧𝐞 𝐨𝐧 𝐎𝐧𝐞 𝐂𝐥𝐚𝐬𝐬 ဆိုတဲ့အတိုင်း အချိန်တွေ၊ ရက်တွေ ညှိပြီး တိုင်ပင်လို့ရတဲ့အတွက်ကြောင့် မအားလို့ သင်တန်းပျက်ရမှာတွေနဲ့ စာလွတ်မှာတွေ စိတ်ပူစရာ မလိုတော့ဘူးနော် </p>
+          <p className="mt-4">အတန်းတွေကလဲ</p>
+          <p className="mt-4">✅ 𝐄𝐧𝐠𝐥𝐢𝐬𝐡 𝐅𝐨𝐮𝐫 𝐒𝐤𝐢𝐥𝐥𝐬 
+✅ 𝐄𝐧𝐠𝐥𝐢𝐬𝐡 𝐒𝐩𝐞𝐚𝐤𝐢𝐧𝐠
+✅ 𝐈𝐄𝐋𝐓𝐒 </p>
+          <p className="mt-4">ကိုယ်သင်ချင်တဲ့အတန်းကို စိတ်ကြိုက်ရွေးပြီး သင်ရုံပဲ💕
+
+𝐁𝐲 𝐎𝐧𝐞 အတန်းလေးမို့ လွတ်လွတ်လပ်လပ်စာမေးနိုင်ပြီး 𝐓𝐞𝐚𝐜𝐡𝐞𝐫 ကလဲ အနီးကပ် ကိုယ်ဖိရင်ဖိသင်ပေးမှာပါရှင် 🤪
+
+ကဲ….. 𝐁𝐄𝐀 ရဲ့ လူတတ်များတဲ့အတန်းလေးကို အသေးစိတ်သိချင်ရင်တော့ 𝐂𝐡𝐚𝐭 𝐁𝐨𝐱 ကိုသာ အမြန်ဆုံးလှမ်းခဲ့လို့ရပါပြီ 🫶🏼</p>
+          <p className="mt-4">Bright English Academy Contact us.</p>
+        </motion.div>
+
+      </div>
     </div>
+    </div>
+
   );
 }
 
