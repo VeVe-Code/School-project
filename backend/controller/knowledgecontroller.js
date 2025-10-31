@@ -8,15 +8,19 @@ const Knowledge = require("../model/Knowledge")
 let knowledgecontroller = {
 
     index:async(req,res)=>{
+         const title = req.query.title || ""; 
+              const query = title
+    ? { title: { $regex: new RegExp(title, "i") } } // ✅ Safe regex
+    : {};
         let limit = 6
         let page = req.query.page || 1
         let knowledge = await Knowledge  
-        .find()
+        .find(query)
         .skip((page - 1) * 6)
         .limit(limit)
         .sort({createdAt:-1})
 
-        let TotalKnowledge = await Knowledge.countDocuments()
+        let TotalKnowledge = await Knowledge.countDocuments(query)
         console.log(TotalKnowledge)
         let TotalPage = Math.ceil(TotalKnowledge/limit)
 

@@ -4,14 +4,15 @@ import Nav from './components/admin/adminnav';
 
 function AdminLayout() {
   return (
-    <div className="md:flex">
-      {/* Sidebar */}
-      <div className="fixed top-0 left-0 h-full  shadow-md overflow-y-auto md:block">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
+      
+      {/* Sidebar / Nav */}
+      <div className="w-full md:w-64 flex-shrink-0 bg-white shadow-md">
         <Nav />
       </div>
 
       {/* Main content */}
-      <div className="flex-1 md:ml-64 p-4">
+      <div className="flex-1 p-4 md:p-8">
         <Outlet />
       </div>
     </div>

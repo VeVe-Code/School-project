@@ -4,14 +4,20 @@ import { Search } from "lucide-react";
 import axios from "../../helper/axios";
 import { Link } from "react-router-dom";
 
-// ✅ Example Data Row Component
+// ✅ Single data row
 function Data({ d, OnDelete }) {
   return (
     <tr className="hover:bg-gray-50 transition">
       <td className="px-6 py-3 text-sm text-gray-700">{d.name}</td>
       <td className="px-6 py-3 text-sm text-gray-700">{d.phno}</td>
       <td className="px-6 py-3 text-sm text-gray-700">{d.email}</td>
-      <td className="px-6 py-3 text-sm text-gray-700 max-w-xs truncate"><Link to={"/admin/admincontactus/" + d._id}><button className=" bg-blue-300 text-sm text-white rounded px-4 p-3">read msg</button></Link></td>
+      <td className="px-6 py-3 text-sm text-gray-700 max-w-xs truncate">
+        <Link to={"/admin/admincontactus/" + d._id}>
+          <button className="hover:bg-blue-600 bg-blue-300 text-sm text-white rounded px-4 p-3">
+            read msg
+          </button>
+        </Link>
+      </td>
       <td className="px-6 py-3 text-sm text-gray-500">
         {new Date(d.createdAt).toLocaleDateString()}
       </td>
@@ -33,26 +39,37 @@ export default function AdminContactus() {
   const [focused, setFocused] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // ✅ Fetch data with debounce
   useEffect(() => {
-    const FetchData = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get("/api/contactus?name=" + search);
-        if (res.status === 200) {
-          setData(res.data);
+    const timeout = setTimeout(() => {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          // Make sure query parameter matches backend (`search`)
+          const res = await axios.get("/api/contactus?search=" + search);
+          if (res.status === 200) {
+            setData(res.data);
+          }
+        } catch (err) {
+          console.error("Error fetching contact messages:", err);
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        console.error("Error fetching contact messages:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    FetchData();
+      };
+      fetchData();
+    }, 400); // wait 400ms after user stops typing
+
+    return () => clearTimeout(timeout); // cleanup on next search
   }, [search]);
 
-  const OnDeleted = async(_id) => {
-       await axios.delete(`/api/contactus/${_id}`);
-    setData((prev) => prev.filter((p) => p._id !== _id));
+  // ✅ Delete a message
+  const OnDeleted = async (_id) => {
+    try {
+      await axios.delete(`/api/contactus/${_id}`);
+      setData((prev) => prev.filter((p) => p._id !== _id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -81,9 +98,7 @@ export default function AdminContactus() {
                 width: focused ? "90%" : "70%",
               }}
               transition={{ duration: 0.4, type: "spring" }}
-              className="flex items-center rounded-2xl px-3 py-2 bg-white/10 shadow-2xl border hover:border-2
-                        sm:w-[16rem] sm:animate-none sm:transition-none 
-                        md:w-[20rem] lg:w-[24rem]"
+              className="flex items-center bg-white shadow-md border border-gray-300 rounded-full px-3 py-2 hover:shadow-lg transition-all duration-300 sm:w-[16rem] md:w-[22rem] lg:w-[24rem]"
             >
               <Search className="text-gray-500 mr-2" size={20} />
               <input
@@ -92,9 +107,19 @@ export default function AdminContactus() {
                 onChange={(e) => setSearch(e.target.value)}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
-                placeholder="Search data..."
-                className="w-full bg-transparent outline-none text-sm sm:text-base"
+                placeholder="Search name, email, or phone..."
+                className="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
               />
+              {/* Clear Button */}
+              {search && (
+                <button
+                  onClick={() => setSearch("")}
+                  type="button"
+                  className="text-gray-400 hover:text-gray-600 transition ml-2"
+                >
+                  ✕
+                </button>
+              )}
             </motion.div>
           </motion.div>
         </div>
@@ -114,14 +139,10 @@ export default function AdminContactus() {
             </thead>
 
             <tbody className="divide-y divide-gray-200">
-              {/* Loading Spinner */}
               {loading ? (
                 <tr>
                   <td colSpan="6" className="text-center py-6">
-                    <div
-                      role="status"
-                      className="flex justify-center items-center h-20"
-                    >
+                    <div role="status" className="flex justify-center items-center h-20">
                       <svg
                         aria-hidden="true"
                         className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -143,9 +164,7 @@ export default function AdminContactus() {
                   </td>
                 </tr>
               ) : data.length > 0 ? (
-                data.map((d) => (
-                  <Data d={d} key={d._id} OnDelete={OnDeleted} />
-                ))
+                data.map((d) => <Data d={d} key={d._id} OnDelete={OnDeleted} />)
               ) : (
                 <tr>
                   <td colSpan="6" className="text-center py-4 text-gray-500">

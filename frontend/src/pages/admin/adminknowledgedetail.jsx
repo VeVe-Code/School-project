@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from '../../helper/axios';
 import { motion } from "framer-motion";
+import Linkify from 'react-linkify';
 
 function AdminKnowledgeDetail() {
     let {id} = useParams();
@@ -23,7 +24,9 @@ useEffect(() => {
     if (!data) {
         return <div className="text-center mt-10">Loading...</div>;
     }
-
+      const lines = data.about.split("\n").filter(line => line.trim() !== "");
+         
+  const isList = lines.every(line => line.trim().startsWith("-"));
     return (
       <div className="max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl mx-auto p-4 sm:p-6 md:p-8 bg-white shadow-lg rounded-xl mt-10 sm:mt-20 md:mt-40 break-words">
   <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center sm:text-left">
@@ -34,9 +37,31 @@ useEffect(() => {
     <span className="font-semibold">Description:</span> {data.description}
   </p>
 
-  <p className="text-gray-600 mb-2">
-    <span className="font-semibold">About:</span> <span className="break-words">{data.about}</span>
-  </p>
+ <Linkify
+  componentDecorator={(decoratedHref, decoratedText, key) => (
+    <a
+      href={decoratedHref}
+      key={key}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 hover:text-blue-800 underline"
+    >
+      {decoratedText}
+    </a>
+  )}
+>
+  <div className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed px-1 sm:px-3">
+    {isList ? (
+      <ul>
+        {lines.map((line, idx) => (
+          <li key={idx}>{line.replace(/^\-\s*/, "")}</li>
+        ))}
+      </ul>
+    ) : (
+      lines.map((line, idx) => <p key={idx}>{line}</p>)
+    )}
+  </div>
+</Linkify>
 
   <p className="text-gray-600 mb-2">
     <span className="font-semibold">Writer:</span> {data.writer}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import Linkify from 'react-linkify';
 
 function CourseDetail() {
   const [course, setCourse] = useState(null);
@@ -22,7 +23,8 @@ function CourseDetail() {
   }, [id]);
 
   if (!course) return <div className="text-center py-20">Loading...</div>;
-
+const lines = course.about.split("\n").filter(line => line.trim() !== "");
+  const isList = lines.every(line => line.trim().startsWith("-"));
   return (
     <motion.div
       className="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden mt-10"
@@ -31,17 +33,20 @@ function CourseDetail() {
       transition={{ duration: 0.6 }}
     >
       {/* Course Image */}
-      <div className="relative w-full h-64 md:h-80 overflow-hidden mt-20 ">
-        <img
-          src={import.meta.env.VITE_BACKEND_URL +  course.photo}
-          alt={course.title}
-          className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <h1 className="absolute bottom-4 left-6 text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
-          {course.title}
-        </h1>
-      </div>
+     <div className="flex justify-center mt-20">
+  <div className="relative w-[80%] h-[80%] overflow-hidden rounded-2xl">
+    <img
+      src={import.meta.env.VITE_BACKEND_URL + course.photo}
+      alt={course.title}
+      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+    />
+    
+    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+    <h1 className="absolute bottom-4 left-6 text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
+      {course.title}
+    </h1>
+  </div>
+</div>
 
       {/* Content Section */}
       <div className="p-6 md:p-8 space-y-6">
@@ -50,14 +55,41 @@ function CourseDetail() {
           <p className="text-gray-600 leading-relaxed">{course.description}</p>
         </section>
 
-        <section>
+        {/* <section>
           <h2 className="text-xl font-semibold mb-2 text-gray-800">About this course</h2>
           <p className="text-gray-600 leading-relaxed">{course.about}</p>
+        </section> */}
+        <section>
+          <Linkify
+  componentDecorator={(decoratedHref, decoratedText, key) => (
+    <a
+      href={decoratedHref}
+      key={key}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 hover:text-blue-800 underline"
+    >
+      {decoratedText}
+    </a>
+  )}
+>
+  <div className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed px-1 sm:px-3">
+    {isList ? (
+      <ul>
+        {lines.map((line, idx) => (
+          <li key={idx}>{line.replace(/^\-\s*/, "")}</li>
+        ))}
+      </ul>
+    ) : (
+      lines.map((line, idx) => <p key={idx}>{line}</p>)
+    )}
+  </div>
+</Linkify>
         </section>
 
         <div className="flex items-center justify-between border-t pt-4">
           <span className="text-2xl font-bold text-gray-900">
-            ฿{course.price.toLocaleString()}
+            {course.price.toLocaleString()} MMK
           </span>
        <Link to='https://m.facebook.com/msg/450502891471332/?show_interstitial=0&mdotme_uri=https%3A%2F%2Fm.me%2Fbrightenglishacademy24&source_id=1441792&handler=m.me&referer&refsrc=deprecated&_rdr'>
                   <motion.button

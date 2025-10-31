@@ -14,6 +14,7 @@ function CourseForm() {
   const [error, setError] = useState(null);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false); // ✅ added loading state
 
   // Fetch course data if editing
   useEffect(() => {
@@ -25,7 +26,7 @@ function CourseForm() {
           setDescription(res.data.description);
           setAbout(res.data.about);
           setPrice(res.data.price);
-           setPreview(import.meta.env.VITE_BACKEND_URL + res.data.photo);
+          setPreview(import.meta.env.VITE_BACKEND_URL + res.data.photo);
         }
       }
     };
@@ -47,6 +48,7 @@ function CourseForm() {
   // Submit form
   const createCourse = async (e) => {
     e.preventDefault();
+    setLoading(true); // ✅ start loading
     try {
       const course = { title, description, about, price };
       let res;
@@ -81,6 +83,8 @@ function CourseForm() {
       }
     } catch (e) {
       setError(e.response?.data?.errors || {});
+    } finally {
+      setLoading(false); // ✅ stop loading
     }
   };
 
@@ -184,13 +188,23 @@ function CourseForm() {
 
           {/* Submit Button */}
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={!loading ? { scale: 1.05 } : {}}
+            whileTap={!loading ? { scale: 0.95 } : {}}
             type="submit"
-            className="w-full py-3 rounded-xl bg-blue-600 text-white 
-            font-semibold text-lg shadow-md hover:bg-blue-700 transition"
+            disabled={loading} // ✅ prevent double submit
+            className={`w-full py-3 rounded-xl text-white font-semibold text-lg shadow-md transition ${
+              loading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
           >
-            {id ? "Update Course" : "Create Course"}
+            {loading
+              ? id
+                ? "Updating..."
+                : "Creating..."
+              : id
+              ? "Update Course"
+              : "Create Course"}
           </motion.button>
         </form>
       </motion.div>
@@ -199,3 +213,4 @@ function CourseForm() {
 }
 
 export default CourseForm;
+

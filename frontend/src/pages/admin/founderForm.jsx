@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "../../helper/axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-
 function FounderForm() {
   let { id } = useParams();
 
@@ -12,6 +11,7 @@ function FounderForm() {
   let [preview, setPreview] = useState(null);
   let navigate = useNavigate();
   let [file, setFile] = useState(null);
+  let [loading, setLoading] = useState(false); // ✅ loading state added
 
   let upload = (e) => {
     let file = e.target.files[0];
@@ -25,42 +25,39 @@ function FounderForm() {
 
   let founder = async (e) => {
     e.preventDefault();
+    setLoading(true); // ✅ start loading
 
-    let data = {
-      name,
-      position,
-      about,
-    };
+    try {
+      let data = { name, position, about };
+      let res;
+      if (id) {
+        res = await axios.patch("/api/founder/" + id, data);
+      } else {
+        res = await axios.post("/api/founder", data);
+      }
 
-    let res;
-    if (id) {
-      res = await axios.patch("/api/founder/" + id, data);
-    } else {
-      res = await axios.post("/api/founder", data);
-    }
+      // ✅ only upload if file exists
+      if (file) {
+        let formData = new FormData();
+        formData.set("photo", file);
 
-    // ✅ only upload if file exists
-    if (file) {
-      let formData = new FormData();
-      formData.set("photo", file);
+        // ✅ use id if editing, else use new _id
+        let founderId = id || res.data._id;
 
-      // ✅ use id if editing, else use new _id
-      let founderId = id || res.data._id;
-
-      let uploadfile = await axios.post(
-        "/api/founder/" + founderId + "/upload",
-        formData,
-        {
+        await axios.post("/api/founder/" + founderId + "/upload", formData, {
           headers: {
-            "Content-Type": "multipart/form-data", // ✅ correct header
+            "Content-Type": "multipart/form-data",
           },
-        }
-      );
-      console.log(uploadfile);
-    }
+        });
+      }
 
-    if (res.status === 200) {
-      navigate("/admin/lecturers");
+      if (res.status === 200) {
+        navigate("/admin/lecturers");
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false); // ✅ stop loading
     }
   };
 
@@ -121,12 +118,16 @@ function FounderForm() {
 
       <button
         type="submit"
-        className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+        disabled={loading} // ✅ disable during loading
+        className={`w-full text-white py-2 rounded transition ${
+          loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+        }`}
       >
-        Save
+        {loading ? "Saving..." : "Save"} {/* ✅ show loading text */}
       </button>
     </form>
   );
 }
 
 export default FounderForm;
+

@@ -10,7 +10,7 @@ function nav() {
   
     const navLinks = [
       { to: "/", label: "Home" },
-      { to: "/About-us", label: "About us" },
+      { to: "/aboutus", label: "About us" },
       { to: "/courses", label: "Courses" },
       { to: "/knowledge", label: "Knowledge" },
       { to: "/Contact-us", label: "Contact us" },

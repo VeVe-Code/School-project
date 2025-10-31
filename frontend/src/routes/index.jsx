@@ -27,7 +27,9 @@ import Knowledge from "../pages/knowledge.jsx";
 import KnowledgeDetail from '../pages/knowledgeDetail.jsx';
 import Contactus  from '../pages/contactus';
 import AdminContactus from '../pages/admin/admincontactus.jsx';
-import AdminContactusdetail  from '../pages/admin/admincontactusdetail.jsx'
+import AdminContactusdetail  from '../pages/admin/admincontactusdetail.jsx';
+import AdminData  from '../pages/admin/admindata.jsx'
+import DataForm from '../pages/admin/dataform.jsx'
 
 // 🔹 Step 1: Wrap everything in AuthContextProvider
 function Index() {
@@ -129,6 +131,14 @@ function IndexWithAuth() {
           path: "admincontactus/:id",
           element: user ? <AdminContactusdetail /> : <Navigate to="/admin/login" />,
         },
+        {
+          path: "data",
+          element: user ? <AdminData /> : <Navigate to="/admin/login" />,
+        }, {
+          path: "data/:id",
+          element: user ? <DataForm /> : <Navigate to="/admin/login" />,
+        } 
+       ,
         {
           path: "login",
           element: !user ? <LoginForm /> : <Navigate to="/admin/admincourse" />,

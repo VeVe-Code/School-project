@@ -5,15 +5,19 @@ let removeFile = require('../helper/removefile')
 
 let coursecontroller = {
     index:async(req,res)=>{
+          const title = req.query.title || ""; 
+              const query = title
+    ? { title: { $regex: new RegExp(title, "i") } } // ✅ Safe regex
+    : {};
        let limit = 6
        let page = req.query.page || 1
         let courses =await Courses
-        .find()
-     .skip((page-1) * limit)
-     .limit(limit)
+        .find(query)
+        .skip((page-1) * limit)
+        .limit(limit)
         .sort({createdAt:-1})
 
- let totalCourse = await Courses.countDocuments()
+ let totalCourse = await Courses.countDocuments(query)
  console.log(totalCourse)
  let TotalPage = Math.ceil(totalCourse/limit)
  console.log(TotalPage)

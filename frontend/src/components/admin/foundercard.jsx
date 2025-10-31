@@ -18,10 +18,10 @@ let deleteFounder = async()=>{
   return (
    <div
     
-      className="flex flex-col md:flex-row items-center gap-8 mb-10 p-6 bg-white shadow-md rounded-xl"
+      className="flex flex-col md:flex-row  gap-8 mb-10 p-6 bg-white shadow-md rounded-xl"
     >
       {/* Left: Image + Edit */}
-      <div className="flex-shrink-0 text-center">
+      <div className="flex-shrink-0 ">
         <img
           src={import.meta.env.VITE_BACKEND_URL + f.photo}
           alt="Founder"

@@ -54,7 +54,7 @@ let Delete = (id) =>{
                <Link to={'/admin/lecturers/create'}><button  className="bg-blue-500 text-neutral-50 px-4 py-2 rounded">Create</button></Link>
         </div>
   
-        <div className="flex flex-col md:flex-row items-center gap-8">
+        <div className="flex flex-col md:flex-row gap-8">
           {/* Left: Image */}
         <form action="">
   {founder.map((f) => (
