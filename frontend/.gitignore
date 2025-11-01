@@ -27,6 +27,6 @@ dist-ssr
 node_modules/
 
 # Environment files
-.env
+# .env
 
 
